@@ -1,24 +1,50 @@
 # estudo-em-casa
-# Calculadora de Volume de Cubo 🧊
+Cubo 3D em ASCII no Terminal 🧊
 
-Um programa simples escrito na linguagem C para calcular o volume de um cubo com base na medida do seu lado. 
+Este projeto é uma renderização clássica de um cubo 3D giratório diretamente no terminal, usando apenas caracteres ASCII. Ele foi escrito em C e utiliza conceitos fundamentais de computação gráfica, como matrizes de rotação matemática, projeção de 3D para 2D e Z-Buffer (buffer de profundidade) para lidar com a oclusão das faces.
+📝 Funcionalidades
 
-Este pequeno projeto serve como um estudo prático de criação de arquivos, edição via terminal (usando Vim) e o processo de compilação e execução de códigos C em ambiente Linux.
+    Renderização 3D: Calcula a posição de pontos no espaço tridimensional.
 
-## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** C
-* **Compilador:** GCC
-* **Ambiente:** Terminal Linux
+    Projeção de Perspectiva: Converte as coordenadas 3D para o plano 2D da sua tela.
 
-## 📝 Sobre o Código
-A lógica matemática do programa é simples e direta. O código utiliza variáveis descritivas em português para facilitar a leitura:
-* `lado`: Define o tamanho da aresta do cubo (atualmente com valor fixo de 5).
-* `volume`: Armazena o resultado da multiplicação (`lado * lado * lado`).
+    Z-Buffer (Buffer de Profundidade): Garante que as faces da frente do cubo cubram corretamente as faces de trás.
 
-## 🚀 Como compilar e executar
+    Animação Contínua: Rotação suave nos eixos X, Y e Z usando a biblioteca <math.h>.
 
-Certifique-se de ter o compilador `gcc` instalado em seu sistema. Siga os passos abaixo no seu terminal:
+🛠️ Como Compilar e Executar
 
-**1. Navegue até a pasta onde o arquivo `cubo.c` está salvo:**
-```bash
-cd caminho/para/a/pasta
+Para rodar este projeto, você precisará de um compilador C (como o GCC) instalado no seu sistema.
+
+    Clone o repositório ou baixe o arquivo fonte (cubo.c).
+
+    Abra o terminal na pasta onde o arquivo está salvo.
+
+    Compile o código passando a flag -lm para linkar a biblioteca matemática:
+
+Bash
+
+gcc cubo.c -o cubo -lm
+
+    Execute o programa:
+
+Bash
+
+./cubo
+
+Dica: Para parar a execução, pressione Ctrl + C no terminal.
+⚙️ Customização
+
+Você pode brincar com o código alterando algumas variáveis globais no início do arquivo para criar efeitos diferentes:
+
+    tamanhoCubo = 20;: Altera o tamanho do cubo.
+
+    larguraTela = 100, alturaTela = 44: Ajuste de acordo com o tamanho do seu terminal para não quebrar a imagem.
+
+    incrementoSuperficie = 0.6;: Altera a densidade dos caracteres. Valores menores preenchem mais as faces, mas exigem mais processamento.
+
+    anguloX += 0.05; (no loop principal): Altere esses valores numéricos no final do main() para deixar o cubo girando mais rápido, mais devagar ou focar a rotação em um eixo específico.
+
+💻 Tecnologias Utilizadas
+
+    Linguagem C (Standard Library, Math, String, Unistd)
