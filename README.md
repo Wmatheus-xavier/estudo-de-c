@@ -1,50 +1,50 @@
-# estudo-em-casa
-Cubo 3D em ASCII no Terminal 🧊
+.
 
-Este projeto é uma renderização clássica de um cubo 3D giratório diretamente no terminal, usando apenas caracteres ASCII. Ele foi escrito em C e utiliza conceitos fundamentais de computação gráfica, como matrizes de rotação matemática, projeção de 3D para 2D e Z-Buffer (buffer de profundidade) para lidar com a oclusão das faces.
-📝 Funcionalidades
+💻 Terminal-Driven Study: Foco Total no CLI
+Este repositório/guia é dedicado a criar e manter o ambiente de estudos definitivo em casa, rodando 100% dentro do terminal.
 
-    Renderização 3D: Calcula a posição de pontos no espaço tridimensional.
+A filosofia é simples: o mouse é uma distração, e interfaces gráficas (GUIs) roubam seu foco. Aqui, construímos um ecossistema minimalista, rápido e à prova de procrastinação para ler, codar, fazer anotações e gerenciar o tempo.
 
-    Projeção de Perspectiva: Converte as coordenadas 3D para o plano 2D da sua tela.
+🎯 Por que estudar no Terminal?
+Zero Distrações: Sem notificações do sistema, sem abas de YouTube abertas ao lado do seu texto.
 
-    Z-Buffer (Buffer de Profundidade): Garante que as faces da frente do cubo cubram corretamente as faces de trás.
+Velocidade: Navegação puramente baseada no teclado.
 
-    Animação Contínua: Rotação suave nos eixos X, Y e Z usando a biblioteca <math.h>.
+Baixo Consumo: Roda em qualquer máquina, do seu PC principal a um Raspberry Pi ou um notebook antigo.
 
-🛠️ Como Compilar e Executar
+Imersão (Flow): Estilo hacker. Tela preta, texto claro, concentração máxima.
 
-Para rodar este projeto, você precisará de um compilador C (como o GCC) instalado no seu sistema.
+🧰 O Arsenal (Ferramentas Essenciais)
+Para dominar os estudos via CLI, você precisa de um conjunto de ferramentas que substituam os aplicativos convencionais:
 
-    Clone o repositório ou baixe o arquivo fonte (cubo.c).
+Multiplexador de Terminal (Tmux ou Zellij): O coração do setup. Permite dividir o terminal em várias janelas (ex: uma para anotações, uma para o código, uma para o timer).
 
-    Abra o terminal na pasta onde o arquivo está salvo.
+Editor de Texto (Neovim, Vim ou Nano): Para escrever resumos, documentação em Markdown e programar.
 
-    Compile o código passando a flag -lm para linkar a biblioteca matemática:
+Gerenciador de Tarefas (Taskwarrior): Controle o que você precisa estudar, crie projetos e defina prazos sem sair da linha de comando.
 
-Bash
+Timer Pomodoro (pomodoro-cli ou termdown): Essencial para manter ciclos de estudo intenso (ex: 50 minutos de foco, 10 de descanso).
 
-gcc cubo.c -o cubo -lm
+Leitor de PDF/Epub (Zathura ou pdftotext): Se você usa uma interface gráfica minimalista (como i3wm/Sway), o Zathura é navegado via teclado (estilo Vim). Se quer puramente texto, converta os livros.
 
-    Execute o programa:
+Música de Fundo (Cmus ou ncspot): Tocar lo-fi ou ruído branco direto do terminal para não ter que abrir o Spotify no navegador.
 
-Bash
+⚙️ Fluxo de Trabalho (O Setup Ideal)
+Um exemplo de como organizar sua tela durante uma sessão de 2 horas de estudo:
 
-./cubo
+Abra seu terminal em tela cheia (F11).
 
-Dica: Para parar a execução, pressione Ctrl + C no terminal.
-⚙️ Customização
+Inicie uma sessão no Tmux: tmux new -s estudos.
 
-Você pode brincar com o código alterando algumas variáveis globais no início do arquivo para criar efeitos diferentes:
+Divida a tela:
 
-    tamanhoCubo = 20;: Altera o tamanho do cubo.
+Lado Esquerdo (60%): Seu editor de texto (nvim resumos.md) para anotações e leitura.
 
-    larguraTela = 100, alturaTela = 44: Ajuste de acordo com o tamanho do seu terminal para não quebrar a imagem.
+Lado Direito - Topo (20%): Linha de comando livre para testar códigos, compilar ou rodar o task para ver a lista de afazeres.
 
-    incrementoSuperficie = 0.6;: Altera a densidade dos caracteres. Valores menores preenchem mais as faces, mas exigem mais processamento.
+Lado Direito - Fundo (20%): O timer rodando (termdown 50m).
 
-    anguloX += 0.05; (no loop principal): Altere esses valores numéricos no final do main() para deixar o cubo girando mais rápido, mais devagar ou focar a rotação em um eixo específico.
+🛡️ Dicas Hardcore contra Procrastinação
+Bloqueie a internet no /etc/hosts: Antes de começar, redirecione redes sociais para 127.0.0.1.
 
-💻 Tecnologias Utilizadas
-
-    Linguagem C (Standard Library, Math, String, Unistd)
+Use Aliases: Crie atalhos no seu .bashrc ou .zshrc. Exemplo: digite focar e o sistema limpa a tela, abre o Tmux, liga o Pomodoro e abre suas anotações do dia.
