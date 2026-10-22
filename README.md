@@ -1,50 +1,92 @@
-.
+# Projetos 3D em C: Cubo no Terminal e Hélice OpenGL
 
-💻 Terminal-Driven Study: Foco Total no CLI
-Este repositório/guia é dedicado a criar e manter o ambiente de estudos definitivo em casa, rodando 100% dentro do terminal.
+Este repositório contém as instruções para compilar e executar dois tipos de projetos gráficos em C: um renderizador de cubo 3D feito puramente no terminal (ASCII) e renderizadores de uma hélice cilíndrica 3D utilizando a biblioteca gráfica OpenGL/GLUT.
 
-A filosofia é simples: o mouse é uma distração, e interfaces gráficas (GUIs) roubam seu foco. Aqui, construímos um ecossistema minimalista, rápido e à prova de procrastinação para ler, codar, fazer anotações e gerenciar o tempo.
+---
 
-🎯 Por que estudar no Terminal?
-Zero Distrações: Sem notificações do sistema, sem abas de YouTube abertas ao lado do seu texto.
+## 🛠️ 1. Dependências e Instalação
 
-Velocidade: Navegação puramente baseada no teclado.
+Para rodar o cubo no terminal, você precisa apenas do compilador GCC padrão. Porém, para compilar os códigos da hélice (`heli.c` e `helice-3d.c`), será necessário instalar as bibliotecas do **OpenGL** e do **GLUT** no seu sistema.
 
-Baixo Consumo: Roda em qualquer máquina, do seu PC principal a um Raspberry Pi ou um notebook antigo.
+### No Arch Linux / Manjaro
+Abra o terminal (como o Kitty) e instale os pacotes básicos de compilação e o FreeGLUT:
+```
+sudo pacman -S gcc make freeglut glu mesa
+```
+No Ubuntu / Debian / Mint 
+```
+sudo apt update
+sudo apt install build-essential freeglut3-dev libgl1-mesa-dev libglu1-mesa-dev
+```
+No Windows (MSYS2 / MinGW)
 
-Imersão (Flow): Estilo hacker. Tela preta, texto claro, concentração máxima.
+Se estiver usando o MSYS2, instale o GCC e o FreeGLUT com:
+```
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-freeglut
+```
 
-🧰 O Arsenal (Ferramentas Essenciais)
-Para dominar os estudos via CLI, você precisa de um conjunto de ferramentas que substituam os aplicativos convencionais:
+2. Compilando e Rodando o Cubo 3D (Terminal)
 
-Multiplexador de Terminal (Tmux ou Zellij): O coração do setup. Permite dividir o terminal em várias janelas (ex: uma para anotações, uma para o código, uma para o timer).
+O arquivo codigo do cubo 3d.c não precisa de interface gráfica, mas exige a biblioteca matemática padrão do C (math.h).
 
-Editor de Texto (Neovim, Vim ou Nano): Para escrever resumos, documentação em Markdown e programar.
+Arquivo: codigo do cubo 3d.c
 
-Gerenciador de Tarefas (Taskwarrior): Controle o que você precisa estudar, crie projetos e defina prazos sem sair da linha de comando.
+Como compilar:
+Como o nome do arquivo tem espaços, coloque-o entre aspas e use a flag -lm no final para linkar a matemática.
+```
 
-Timer Pomodoro (pomodoro-cli ou termdown): Essencial para manter ciclos de estudo intenso (ex: 50 minutos de foco, 10 de descanso).
+gcc "codigo do cubo 3d.c" -o cubo -lm
 
-Leitor de PDF/Epub (Zathura ou pdftotext): Se você usa uma interface gráfica minimalista (como i3wm/Sway), o Zathura é navegado via teclado (estilo Vim). Se quer puramente texto, converta os livros.
+```
 
-Música de Fundo (Cmus ou ncspot): Tocar lo-fi ou ruído branco direto do terminal para não ter que abrir o Spotify no navegador.
+Como executar:
+```
+./cubo
+```
 
-⚙️ Fluxo de Trabalho (O Setup Ideal)
-Um exemplo de como organizar sua tela durante uma sessão de 2 horas de estudo:
 
-Abra seu terminal em tela cheia (F11).
+(Para parar a animação no terminal, pressione Ctrl + C)
 
-Inicie uma sessão no Tmux: tmux new -s estudos.
 
-Divida a tela:
+3. Compilando e Rodando a Hélice 3D (OpenGL/GLUT)
 
-Lado Esquerdo (60%): Seu editor de texto (nvim resumos.md) para anotações e leitura.
+Os arquivos heli.c e helice-3d.c geram uma janela gráfica interativa. Eles precisam ser linkados com as bibliotecas do OpenGL (-lGL), do GLU (-lGLU), do GLUT (-lglut) e de matemática (-lm).
 
-Lado Direito - Topo (20%): Linha de comando livre para testar códigos, compilar ou rodar o task para ver a lista de afazeres.
+Arquivos: heli.c ou helice-3d.c (use o mesmo comando para ambos, apenas trocando o nome do arquivo fonte e de saída).
 
-Lado Direito - Fundo (20%): O timer rodando (termdown 50m).
+Como compilar no Linux:
+```
 
-🛡️ Dicas Hardcore contra Procrastinação
-Bloqueie a internet no /etc/hosts: Antes de começar, redirecione redes sociais para 127.0.0.1.
+gcc heli.c -o heli -lGL -lGLU -lglut -lm
+```
+(Se for compilar o outro arquivo: gcc helice-3d.c -o helice -lGL -lGLU -lglut -lm)
 
-Use Aliases: Crie atalhos no seu .bashrc ou .zshrc. Exemplo: digite focar e o sistema limpa a tela, abre o Tmux, liga o Pomodoro e abre suas anotações do dia.
+Como compilar no Windows (MinGW):
+
+```
+gcc heli.c -o heli.exe -lopengl32 -lglu32 -lfreeglut -lm
+```
+Como executar:
+
+```
+./heli
+```
+
+(No Windows, digite apenas heli ou heli.exe)
+🎮 Controles da Hélice:
+
+  Mouse (Botão Esquerdo): Segure e arraste para girar a câmera livremente.
+
+  Scroll do Mouse: Aumenta ou diminui o Zoom.
+
+  Tecla a ou A: Pausa / Retoma a rotação automática.
+
+  Tecla q, Q ou ESC: Fecha a janela.
+
+ Solução de Problemas Comuns
+
+  Erro undefined reference to sin ou cos: Você esqueceu de colocar a flag -lm no final do comando de compilação.
+
+  Erro GL/glut.h: No such file or directory: O pacote do FreeGLUT não está instalado corretamente no seu sistema. Volte ao passo 1 e certifique-se de instalar as dependências.
+
+  Falha de Segmentação (Core Dumped) no Cubo: Verifique se o tamanho do seu terminal é pelo menos 100x44 (largura x altura). Se a janela do terminal (ex: Kitty) estiver muito pequena, o desenho pode quebrar.
