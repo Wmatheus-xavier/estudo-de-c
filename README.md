@@ -1,92 +1,254 @@
-# Projetos 3D em C: Cubo no Terminal e Hélice OpenGL
+# Projetos Gráficos em C
 
-Este repositório contém as instruções para compilar e executar dois tipos de projetos gráficos em C: um renderizador de cubo 3D feito puramente no terminal (ASCII) e renderizadores de uma hélice cilíndrica 3D utilizando a biblioteca gráfica OpenGL/GLUT.
+Coleção de programas em C que desenham gráficos 3D, tanto no terminal quanto em janela com OpenGL.
+
+## Arquivos do projeto
+
+| Arquivo | Descrição | Tipo |
+|---|---|---|
+| `cubo3d.c` | Cubo 3D girando, desenhado com caracteres ASCII no terminal | Terminal |
+| `openclaude.c` | Versão refeita do cubo, com outros caracteres nas faces | Terminal |
+| `heli.c` | Hélice cilíndrica 3D com OpenGL e GLUT | Janela gráfica |
+| `helice-3d.c` | Mesma hélice, com código totalmente comentado | Janela gráfica |
 
 ---
 
-## 🛠️ 1. Dependências e Instalação
+## Parte 1: Cubo no terminal (`cubo3d.c` e `openclaude.c`)
 
-Para rodar o cubo no terminal, você precisa apenas do compilador GCC padrão. Porém, para compilar os códigos da hélice (`heli.c` e `helice-3d.c`), será necessário instalar as bibliotecas do **OpenGL** e do **GLUT** no seu sistema.
+Esses dois programas usam apenas a biblioteca padrão do C e a biblioteca de matemática. Não precisam de nenhuma instalação extra além do compilador.
 
-### No Arch Linux / Manjaro
-Abra o terminal (como o Kitty) e instale os pacotes básicos de compilação e o FreeGLUT:
-```
-sudo pacman -S gcc make freeglut glu mesa
-```
-No Ubuntu / Debian / Mint 
-```
+### O que instalar
+
+**Linux (Ubuntu/Debian):**
+
+```bash
 sudo apt update
-sudo apt install build-essential freeglut3-dev libgl1-mesa-dev libglu1-mesa-dev
-```
-No Windows (MSYS2 / MinGW)
-
-Se estiver usando o MSYS2, instale o GCC e o FreeGLUT com:
-```
-pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-freeglut
+sudo apt install build-essential
 ```
 
-2. Compilando e Rodando o Cubo 3D (Terminal)
+**macOS:**
 
-O arquivo codigo do cubo 3d.c não precisa de interface gráfica, mas exige a biblioteca matemática padrão do C (math.h).
-
-Arquivo: codigo do cubo 3d.c
-
-Como compilar:
-Como o nome do arquivo tem espaços, coloque-o entre aspas e use a flag -lm no final para linkar a matemática.
+```bash
+xcode-select --install
 ```
 
-gcc "codigo do cubo 3d.c" -o cubo -lm
+**Windows:**
 
+Instale o [MSYS2](https://www.msys2.org/) e, no terminal MSYS2 UCRT64, rode:
+
+```bash
+pacman -S mingw-w64-ucrt-x86_64-gcc
 ```
 
-Como executar:
-```
-./cubo
-```
+Outra opção é usar o WSL (Ubuntu dentro do Windows) e seguir os passos do Linux.
 
+### Como compilar
 
-(Para parar a animação no terminal, pressione Ctrl + C)
-
-
-3. Compilando e Rodando a Hélice 3D (OpenGL/GLUT)
-
-Os arquivos heli.c e helice-3d.c geram uma janela gráfica interativa. Eles precisam ser linkados com as bibliotecas do OpenGL (-lGL), do GLU (-lGLU), do GLUT (-lglut) e de matemática (-lm).
-
-Arquivos: heli.c ou helice-3d.c (use o mesmo comando para ambos, apenas trocando o nome do arquivo fonte e de saída).
-
-Como compilar no Linux:
+```bash
+gcc cubo3d.c -o cubo3d -lm
 ```
 
-gcc heli.c -o heli -lGL -lGLU -lglut -lm
+```bash
+gcc openclaude.c -o openclaude -lm
 ```
-(Se for compilar o outro arquivo: gcc helice-3d.c -o helice -lGL -lGLU -lglut -lm)
 
-Como compilar no Windows (MinGW):
+A flag `-lm` liga a biblioteca de matemática (`sin`, `cos`). Sem ela, aparece o erro `undefined reference to 'sin'`.
 
-```
-gcc heli.c -o heli.exe -lopengl32 -lglu32 -lfreeglut -lm
-```
-Como executar:
+### Como executar
 
+```bash
+./cubo3d
 ```
+
+```bash
+./openclaude
+```
+
+Para sair, aperte `Ctrl + C`.
+
+> **Dica:** deixe o terminal com pelo menos 100 colunas e 44 linhas, senão o cubo fica cortado.
+
+> **Atenção (Windows):** esses programas usam `unistd.h` e `usleep`, que existem no Linux, no macOS, no WSL e no MSYS2, mas não no CMD/PowerShell puro com MSVC.
+
+---
+
+## Parte 2: Hélice 3D com OpenGL (`heli.c` e `helice-3d.c`)
+
+Esses programas abrem uma janela gráfica e precisam das bibliotecas **OpenGL**, **GLU** e **GLUT (freeglut)**.
+
+### O que instalar
+
+**Linux (Ubuntu/Debian):**
+
+```bash
+sudo apt update
+sudo apt install build-essential freeglut3-dev libglu1-mesa-dev mesa-common-dev
+```
+
+**Linux (Fedora):**
+
+```bash
+sudo dnf install gcc freeglut-devel mesa-libGLU-devel
+```
+
+**Linux (Arch):**
+
+```bash
+sudo pacman -S base-devel freeglut glu
+```
+
+**macOS:**
+
+```bash
+xcode-select --install
+```
+
+No macOS o GLUT já vem com o sistema (`-framework GLUT`).
+
+**Windows (MSYS2):**
+
+Abra o terminal **MSYS2 UCRT64** e rode:
+
+```bash
+pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-freeglut
+```
+
+### Como compilar
+
+**Linux:**
+
+```bash
+gcc heli.c -o heli -lglut -lGLU -lGL -lm
+```
+
+```bash
+gcc helice-3d.c -o helice-3d -lglut -lGLU -lGL -lm
+```
+
+**macOS:**
+
+```bash
+gcc heli.c -o heli -framework OpenGL -framework GLUT -Wno-deprecated
+```
+
+```bash
+gcc helice-3d.c -o helice-3d -framework OpenGL -framework GLUT -Wno-deprecated
+```
+
+**Windows (MSYS2):**
+
+```bash
+gcc heli.c -o heli.exe -lfreeglut -lglu32 -lopengl32 -lm
+```
+
+```bash
+gcc helice-3d.c -o helice-3d.exe -lfreeglut -lglu32 -lopengl32 -lm
+```
+
+### Como executar
+
+**Linux / macOS:**
+
+```bash
 ./heli
 ```
 
-(No Windows, digite apenas heli ou heli.exe)
-🎮 Controles da Hélice:
+```bash
+./helice-3d
+```
 
-  Mouse (Botão Esquerdo): Segure e arraste para girar a câmera livremente.
+**Windows:**
 
-  Scroll do Mouse: Aumenta ou diminui o Zoom.
+```bash
+./heli.exe
+```
 
-  Tecla a ou A: Pausa / Retoma a rotação automática.
+### Controles
 
-  Tecla q, Q ou ESC: Fecha a janela.
+| Ação | Função |
+|---|---|
+| Arrastar com o botão esquerdo do mouse | Rotaciona a câmera |
+| Scroll do mouse | Zoom in / zoom out |
+| Tecla `A` | Liga/desliga a rotação automática |
+| Tecla `ESC` ou `Q` | Sai do programa |
 
- Solução de Problemas Comuns
+---
 
-  Erro undefined reference to sin ou cos: Você esqueceu de colocar a flag -lm no final do comando de compilação.
+## Explicação das flags do GCC
 
-  Erro GL/glut.h: No such file or directory: O pacote do FreeGLUT não está instalado corretamente no seu sistema. Volte ao passo 1 e certifique-se de instalar as dependências.
+| Flag | Significado |
+|---|---|
+| `-o nome` | Define o nome do executável gerado |
+| `-lm` | Liga a biblioteca de matemática |
+| `-lglut` | Liga o GLUT (janela e eventos) |
+| `-lGLU` | Liga o GLU (`gluPerspective`) |
+| `-lGL` | Liga o OpenGL |
+| `-framework` | Equivalente às flags acima no macOS |
 
-  Falha de Segmentação (Core Dumped) no Cubo: Verifique se o tamanho do seu terminal é pelo menos 100x44 (largura x altura). Se a janela do terminal (ex: Kitty) estiver muito pequena, o desenho pode quebrar.
+---
+
+## Problemas comuns
+
+**`undefined reference to 'sin'`**
+Faltou a flag `-lm` no final do comando.
+
+**`fatal error: GL/glut.h: No such file or directory`**
+O freeglut não está instalado. Rode o comando de instalação da Parte 2.
+
+**`implicit declaration of function 'exit'`**
+Os arquivos `heli.c` e `helice-3d.c` usam `exit(0)` sem incluir `<stdlib.h>`. Adicione esta linha no topo do arquivo:
+
+```c
+#include <stdlib.h>
+```
+
+**`cannot open display` / janela não abre no WSL**
+Use o WSL2 com WSLg (Windows 11) ou instale um servidor X.
+
+**Cubo cortado ou bagunçado no terminal**
+Aumente a janela do terminal para pelo menos 100x44 caracteres.
+
+---
+
+## Executando tudo de uma vez (opcional)
+
+Crie um arquivo `Makefile` na mesma pasta:
+
+```makefile
+CC = gcc
+
+all: cubo3d openclaude heli helice-3d
+
+cubo3d: cubo3d.c
+	$(CC) cubo3d.c -o cubo3d -lm
+
+openclaude: openclaude.c
+	$(CC) openclaude.c -o openclaude -lm
+
+heli: heli.c
+	$(CC) heli.c -o heli -lglut -lGLU -lGL -lm
+
+helice-3d: helice-3d.c
+	$(CC) helice-3d.c -o helice-3d -lglut -lGLU -lGL -lm
+
+clean:
+	rm -f cubo3d openclaude heli helice-3d
+```
+
+Depois é só rodar:
+
+```bash
+make
+```
+
+E para apagar os executáveis:
+
+```bash
+make clean
+```
+
+---
+
+## Licença
+
+Uso livre para estudo e aprendizado.
